@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Host Quiz</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Host Panel</h1>
+    <input id="question" placeholder="Enter question">
+    <button onclick="sendQuestion()">Send Question</button>
+    <script>
+        const socket = io();
+
+        function sendQuestion() {
+            const q = document.getElementById('question').value;
+            socket.emit('host-question', q);
+        }
+    </script>
+</body>
+</html>

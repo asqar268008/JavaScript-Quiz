@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Quiz</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Live Quiz</h1>
+    <div>
+        <input id="username" placeholder="Enter your name">
+        <button onclick="join()">Join</button>
+    </div>
+    <div id="quiz-section" style="display:none;">
+        <h2 id="question"></h2>
+        <input id="answer" placeholder="Your answer">
+        <button onclick="submitAnswer()">Submit</button>
+    </div>
+    <script>
+        const socket = io();
+        let username = '';
+
+        function join() {
+            username = document.getElementById('username').value;
+            document.getElementById('quiz-section').style.display = 'block';
+        }
+
+        socket.on('new-question', (question) => {
+            document.getElementById('question').textContent = question;
+        });
+
+        function submitAnswer() {
+            const answer = document.getElementById('answer').value;
+            socket.emit('submit-answer', { username, answer });
+        }
+    </script>
+</body>
+</html>
